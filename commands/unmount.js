@@ -7,6 +7,7 @@ module.exports = {
         .setName('unmount')
         .setDescription('Unmounts any mounted .iso file from the FTP server'),
     async execute(interaction) {
+        console.log(`Command executed: /unmount`);
         const ftpAddress = process.env.FTP_ADDRESS; // Your FTP server address from .env
 
         const URL = `http://${ftpAddress}/mount.ps3/unmount`;

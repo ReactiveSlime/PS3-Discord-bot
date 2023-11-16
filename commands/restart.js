@@ -7,6 +7,7 @@ module.exports = {
         .setName('restart')
         .setDescription('Restarts the PS3'),
     async execute(interaction) {
+        console.log(`Command executed: /restart`);
         const ftpAddress = process.env.FTP_ADDRESS; // Your FTP server address from .env
 
         const URL = `http://${ftpAddress}/restart.ps3`;

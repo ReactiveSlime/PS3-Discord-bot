@@ -7,6 +7,7 @@ module.exports = {
         .setName('shutdown')
         .setDescription('shutsdown the PS3'),
     async execute(interaction) {
+        console.log(`Command executed: /shutdown`);
         const ftpAddress = process.env.FTP_ADDRESS; // Your FTP server address from .env
 
         const URL = `http://${ftpAddress}/shutdown.ps3`;

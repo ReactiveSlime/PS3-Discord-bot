@@ -12,6 +12,7 @@ module.exports = {
                 .setRequired(true)
         ),
     async execute(interaction) {
+        console.log(`Command executed: /mount ${interaction.options.getString('filename')}`);
         const ftpAddress = process.env.FTP_ADDRESS; // Your FTP server address from .env
         const fileName = interaction.options.getString('filename');
 
