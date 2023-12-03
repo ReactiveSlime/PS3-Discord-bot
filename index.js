@@ -10,6 +10,9 @@ const client = new Client({
 });
 
 client.commands = new Map();
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const totalCommands = commandFiles.length;
+let loadedCommands = 0;
 
 client.once('ready', async () => {
     console.log(`Logged in as ${client.user.tag}`);
@@ -17,6 +20,7 @@ client.once('ready', async () => {
     const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
     for (const file of commandFiles) {
         try {
+            const start = process.hrtime(); // Start the timer
             const command = require(`./commands/${file}`);
             if (!command.data || !command.execute) {
                 console.error(`Error loading command from file ${file}. Make sure the file exports 'data' and 'execute'.`);
@@ -28,7 +32,16 @@ client.once('ready', async () => {
                 .commands.create(command.data);
 
             client.commands.set(command.data.name, command);
-            console.log(`Command ${command.data.name}`);
+
+            const end = process.hrtime(start); // End the timer
+            const executionTime = (end[0] * 1e9 + end[1]) / 1e6; // Calculate execution time in milliseconds
+            console.log(`Command ${command.data.name} loaded (${executionTime.toFixed(2)}ms)`);
+
+            loadedCommands++;
+
+            if (loadedCommands === totalCommands) {
+                console.log(`All ${totalCommands} commands have been loaded.`);
+            }
         } catch (error) {
             console.error(`Error loading/commanding file ${file}: ${error}`);
         }

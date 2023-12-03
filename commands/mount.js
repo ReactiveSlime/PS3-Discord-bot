@@ -12,16 +12,22 @@ module.exports = {
                 .setRequired(true)
         ),
     async execute(interaction) {
-        console.log(`Command executed: /mount ${interaction.options.getString('filename')}`);
-        const ftpAddress = process.env.FTP_ADDRESS; // Your FTP server address from .env
         const fileName = interaction.options.getString('filename');
+
+        console.log(`Command executed: /mount ${fileName}`);
+
+        const ftpAddress = process.env.FTP_ADDRESS; // Your FTP server address from .env
 
         if (!fileName.toLowerCase().endsWith('.iso')) {
             await interaction.reply('The specified file must end with .iso.');
             return;
         }
 
-        const mountURL = `http://${ftpAddress}/mount.ps3/${encodeURIComponent(fileName)}`;
+        // Encode the fileName to handle spaces and special characters in the URL
+        const encodedFileName = encodeURIComponent(fileName);
+        const mountURL = `http://${ftpAddress}/mount.ps3/${encodedFileName}`;
+
+        console.log('Mount URL:', mountURL);
 
         try {
             const response = await axios.get(mountURL);
