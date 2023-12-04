@@ -17,6 +17,11 @@ module.exports = {
             option.setName('file')
                 .setDescription('Specify a file (optional)')
                 .setRequired(false)
+        )
+        .addStringOption(option =>
+            option.setName('extension')
+                .setDescription('Specify a file extension to filter files')
+                .setRequired(false)
         ),
     async execute(interaction) {
         const client = new ftp.Client();
@@ -36,9 +41,10 @@ module.exports = {
             let path = interaction.options.getString('path');
             path = path ? path : '/'; // If no path is specified, default to root ('/')
             const fileOption = interaction.options.getString('file');
+            const extension = interaction.options.getString('extension')?.toLowerCase(); // Convert extension to lowercase
+
             if (fileOption) {
-                    console.log(`Accessed file: ${path}/${fileOption}`); // Log accessed file
-                
+                console.log(`Accessed file: ${path}/${fileOption}`); // Log accessed file
 
                 const size = await client.size(`${path}/${fileOption}`);
                 if (size < fileSizeLimit) {
@@ -54,12 +60,15 @@ module.exports = {
                     await interaction.reply(`The file ${fileOption} is larger than ${fileSizeLimit} bytes. You can download it from:\n${fileURL}`);
                 }
             } else {
-                    console.log(`Accessed folder: ${path}`); // Log accessed folder
+                console.log(`Accessed folder: ${path}`); // Log accessed folder
                 const list = await client.list(path);
 
                 let fileList = '';
                 list.forEach(item => {
-                    fileList += `${item.name}\n`;
+                    const itemName = item.name.toLowerCase(); // Convert file name to lowercase for comparison
+                    if (!extension || itemName.endsWith(`.${extension}`)) {
+                        fileList += `${item.name}\n`;
+                    }
                 });
 
                 await interaction.reply(`Files in ${path}:\n\`\`\`${fileList}\`\`\``);
