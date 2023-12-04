@@ -63,6 +63,8 @@ module.exports = {
                 console.log(`Accessed folder: ${path}`); // Log accessed folder
                 const list = await client.list(path);
 
+                list.sort((a, b) => a.name.localeCompare(b.name)); // Sort files alphabetically
+
                 let fileList = '';
                 list.forEach(item => {
                     const itemName = item.name.toLowerCase(); // Convert file name to lowercase for comparison
