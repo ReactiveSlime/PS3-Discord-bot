@@ -1,4 +1,5 @@
 
+  
 # Discord PS3 Bot
 
 This Discord bot provides functionalities to interact with a PS3 system, including mounting and unmounting game .iso files, and initiating restart/shutdown actions.
@@ -25,12 +26,18 @@ FTP_ADDRESS=your_ftp_server_address_here
 FILE_SIZE_LIMIT_BYTES=1048576
 ```
 ## Installation
-To install the required npm packages, run: npm install axios basic-ftp
+The following npm packages are required 
+ - axios
+ - basic-ftp
+ - discord.js
 
 ## Usage
 1.  **Start the Bot**: Run the bot using `node .`   .
 2.  **Use Bot Commands**:
-    -   `/mount <filename>`: Mount an .iso file from the FTP server to the PS3.
-    -   `/unmount`: Unmount any currently mounted .iso file from the PS3.
-    -   `/restart`: Will restart the PS3
+    - `/mount </path/to/game/file>`: Mount an .iso file to the PS3.
+	    - `/mount console:PS1/2/3 filename:<file.iso>`: Will mount the iso file with the file name in the respective PS ISO directory. e.g. /dev_hdd0/PSXISO for PS1, /dev_hdd0/PS2ISO for PS2 and /dev_hdd0/PS3ISO for PS3. Mounting a game this way does not require the full folder path
+    - `/unmount`: Unmount any currently mounted .iso file from the PS3.
+    - `/restart`: Will restart the PS3
     - `/shutdown`: Will shutdown the PS3
+    - `/exit`: Will exit the current PS3 game
+    - `/play`: Will launch the current mounted game
