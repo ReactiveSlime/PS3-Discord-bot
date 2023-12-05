@@ -41,3 +41,7 @@ The following npm packages are required
     - `/shutdown`: Will shutdown the PS3
     - `/exit`: Will exit the current PS3 game
     - `/play`: Will launch the current mounted game
+
+## Known Bugs
+A command will take around 20 seconds to load. when I disabled the command another random one will take 20 seconds
+`/play` discord will reply back with `Interaction Failed` but the command does execute with no issues 
